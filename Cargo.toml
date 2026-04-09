@@ -1,13 +1,13 @@
 [package]
 name = "ordered-float-macros"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 authors = ["Naganohara Yoshino <naganohara-yoshino@outlook.com>"]
 repository = "https://github.com/naganohara-yoshino/ordered-float-macros"
 documentation = "https://docs.rs/ordered-float-macros"
 description = "Procedural macros for ordered-float"
-keywords = ["ordered-float", "macros"]
+keywords = ["ordered-float", "macros", "not-nan"]
 readme = "README.md"
 
 [lib]
