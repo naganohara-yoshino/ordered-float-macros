@@ -1,7 +1,6 @@
 # ordered-float-macros
 
-Procedural macros for constructing `ordered_float::NotNan` and
-`ordered_float::OrderedFloat`.
+Procedural macros for constructing `ordered_float::NotNan` and `ordered_float::OrderedFloat` with compile-time validation where possible.
 
 ## Installation
 
@@ -10,12 +9,10 @@ Add both crates to your `Cargo.toml`:
 ```toml
 [dependencies]
 ordered-float = "5.3"
-ordered-float-macros = "0.3"
+ordered-float-macros = "0.4"
 ```
 
-`ordered-float` must be a direct dependency of the calling crate. These
-proc-macros intentionally expand to `::ordered_float::...`, so depending only on
-`ordered-float-macros` is not enough.
+It's suggested that `ordered-float` be a direct dependency of the calling crate for convenience.
 
 ## Usage
 
@@ -43,5 +40,12 @@ fn main() {
     assert_eq!(b.into_inner(), 5.0);
     assert_eq!(c.into_inner(), 3.5);
     assert_eq!(d.into_inner(), 3.0);
+
+    // This fail to compile because `NAN` is not allowed:
+    // let _ = nn32!(f32::INFINITY - f32::INFINITY);
+
+    // This fails to compile because `_value` is not const-evaluable:
+    // let _value = 1.0;
+    // let _ = nn64!(_value);
 }
 ```
