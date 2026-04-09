@@ -9,7 +9,7 @@ Add both crates to your `Cargo.toml`:
 ```toml
 [dependencies]
 ordered-float = "5.3"
-ordered-float-macros = "0.4"
+ordered-float-macros = "0.5"
 ```
 
 It's suggested that `ordered-float` be a direct dependency of the calling crate for convenience.

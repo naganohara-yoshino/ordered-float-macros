@@ -3,3 +3,5 @@ error[E0080]: evaluation panicked: nn64!: expression evaluated to NAN
   |
 4 |     let _ = nn64!(f64::INFINITY + f64::NEG_INFINITY);
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `main::_` failed here
+  |
+  = note: this error originates in the macro `$crate::panic::panic_2021` which comes from the expansion of the macro `nn64` (in Nightly builds, run with -Z macro-backtrace for more info)
