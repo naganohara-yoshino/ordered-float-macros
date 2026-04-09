@@ -5,36 +5,24 @@ use quote::quote;
 use syn::{Expr, parse_macro_input};
 
 /// Builds an `ordered_float::NotNan<f32>` from a const-evaluable expression.
-///
-/// The calling crate must depend on `ordered-float` directly because the
-/// generated code refers to `::ordered_float`.
 #[proc_macro]
 pub fn nn32(input: TokenStream) -> TokenStream {
     expand_not_nan(input, FloatTy::F32)
 }
 
 /// Builds an `ordered_float::NotNan<f64>` from a const-evaluable expression.
-///
-/// The calling crate must depend on `ordered-float` directly because the
-/// generated code refers to `::ordered_float`.
 #[proc_macro]
 pub fn nn64(input: TokenStream) -> TokenStream {
     expand_not_nan(input, FloatTy::F64)
 }
 
 /// Builds an `ordered_float::OrderedFloat<f32>` from an expression.
-///
-/// The calling crate must depend on `ordered-float` directly because the
-/// generated code refers to `::ordered_float`.
 #[proc_macro]
 pub fn of32(input: TokenStream) -> TokenStream {
     expand_ordered_float(input, FloatTy::F32)
 }
 
 /// Builds an `ordered_float::OrderedFloat<f64>` from an expression.
-///
-/// The calling crate must depend on `ordered-float` directly because the
-/// generated code refers to `::ordered_float`.
 #[proc_macro]
 pub fn of64(input: TokenStream) -> TokenStream {
     expand_ordered_float(input, FloatTy::F64)
