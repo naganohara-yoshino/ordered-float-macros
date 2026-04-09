@@ -1,0 +1,5 @@
+error[E0080]: evaluation panicked: nn64!: expression evaluated to NAN
+ --> tests/ui/fail/nn64_nan.rs:4:13
+  |
+4 |     let _ = nn64!(f64::INFINITY + f64::NEG_INFINITY);
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `main::_` failed here

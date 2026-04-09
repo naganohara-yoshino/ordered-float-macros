@@ -1,0 +1,5 @@
+error[E0080]: evaluation panicked: nn32!: expression evaluated to NAN
+ --> tests/ui/fail/nn32_nan.rs:4:13
+  |
+4 |     let _ = nn32!(f32::NAN);
+  |             ^^^^^^^^^^^^^^^ evaluation of `main::_` failed here
