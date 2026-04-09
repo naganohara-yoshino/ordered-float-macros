@@ -10,7 +10,7 @@ Add both crates to your `Cargo.toml`:
 ```toml
 [dependencies]
 ordered-float = "5.3"
-ordered-float-macros = "0.1"
+ordered-float-macros = "0.3"
 ```
 
 `ordered-float` must be a direct dependency of the calling crate. These
@@ -19,7 +19,7 @@ proc-macros intentionally expand to `::ordered_float::...`, so depending only on
 
 ## Usage
 
-`nn32!` and `nn64!` require a const-evaluable expression and reject `NaN` at
+`nn32!` and `nn64!` require a const-evaluable expression and reject `NAN` at
 compile time.
 
 `of32!` and `of64!` wrap any ordinary expression of the matching float type, so
