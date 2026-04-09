@@ -1,6 +1,11 @@
 # ordered-float-macros
 
-Procedural macros for constructing `ordered_float::NotNan` and `ordered_float::OrderedFloat` with compile-time validation where possible.
+Declarative macros for constructing `ordered_float::NotNan` and `ordered_float::OrderedFloat`.
+
+The crate focuses on two small jobs:
+
+- `nn32!` and `nn64!` build `NotNan<f32>` and `NotNan<f64>` from const-evaluable expressions and reject `NAN` during compilation.
+- `of32!` and `of64!` wrap ordinary float expressions in `OrderedFloat`, including runtime values.
 
 ## Installation
 
@@ -9,43 +14,59 @@ Add both crates to your `Cargo.toml`:
 ```toml
 [dependencies]
 ordered-float = "5.3"
-ordered-float-macros = "0.5"
+ordered-float-macros = "0.6"
 ```
 
-It's suggested that `ordered-float` be a direct dependency of the calling crate for convenience.
+Keeping `ordered-float` as a direct dependency is usually the most convenient setup for downstream code.
 
 ## Usage
-
-`nn32!` and `nn64!` require a const-evaluable expression and reject `NAN` at
-compile time.
-
-`of32!` and `of64!` wrap any ordinary expression of the matching float type, so
-they can be used with runtime values as well.
 
 ```rust
 use ordered_float::{NotNan, OrderedFloat};
 use ordered_float_macros::{nn32, nn64, of32, of64};
 
-const SCALE: f64 = 2.0;
+const SCALE32: f32 = 1.5;
+const SCALE64: f64 = 3.0;
 
 fn main() {
-    let runtime = 1.5_f32;
+    let runtime32 = 1.0_f32;
+    let runtime64 = 0.5_f64;
 
-    let a: NotNan<f32> = nn32!(1.25 + 0.75);
-    let b: NotNan<f64> = nn64!(SCALE * 2.5);
-    let c: OrderedFloat<f32> = of32!(runtime + 2.0);
-    let d: OrderedFloat<f64> = of64!(SCALE + 1.0);
+    let a: NotNan<f32> = nn32!(SCALE32 + 0.5);
+    let b: NotNan<f64> = nn64!(SCALE64 * 2.0);
+    let c: OrderedFloat<f32> = of32!(runtime32 + SCALE32 - 0.25);
+    let d: OrderedFloat<f64> = of64!(runtime64 + SCALE64 / 3.0);
 
     assert_eq!(a.into_inner(), 2.0);
-    assert_eq!(b.into_inner(), 5.0);
-    assert_eq!(c.into_inner(), 3.5);
-    assert_eq!(d.into_inner(), 3.0);
+    assert_eq!(b.into_inner(), 6.0);
+    assert_eq!(c.into_inner(), 2.25);
+    assert_eq!(d.into_inner(), 1.5);
+}
+```
 
-    // This fail to compile because `NAN` is not allowed:
-    // let _ = nn32!(f32::INFINITY - f32::INFINITY);
+## Guarantees And Limits
 
-    // This fails to compile because `_value` is not const-evaluable:
-    // let _value = 1.0;
-    // let _ = nn64!(_value);
+- `nn32!` and `nn64!` only accept expressions that can be evaluated in a `const` context.
+- If such an expression evaluates to `NAN`, compilation fails with a macro-specific error message.
+- `of32!` and `of64!` do not perform validation; they simply wrap the value in `OrderedFloat`.
+
+`nn32!` rejects `NAN`:
+
+```compile_fail
+use ordered_float_macros::nn32;
+
+fn main() {
+    let _ = nn32!(f32::NAN);
+}
+```
+
+`nn64!` also rejects non-const expressions:
+
+```compile_fail
+use ordered_float_macros::nn64;
+
+fn main() {
+    let value = 1.0_f64;
+    let _ = nn64!(value);
 }
 ```
