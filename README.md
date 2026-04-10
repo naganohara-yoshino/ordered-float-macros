@@ -14,7 +14,7 @@ Add both crates to your `Cargo.toml`:
 ```toml
 [dependencies]
 ordered-float = "5.3"
-ordered-float-macros = "0.6"
+ordered-float-macros = "0.7"
 ```
 
 `ordered-float` must be a **direct dependency** of the calling crate. These
