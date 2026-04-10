@@ -17,7 +17,9 @@ ordered-float = "5.3"
 ordered-float-macros = "0.6"
 ```
 
-Keeping `ordered-float` as a direct dependency is usually the most convenient setup for downstream code.
+`ordered-float` must be a **direct dependency** of the calling crate. These
+proc-macros intentionally expand to `::ordered_float::...`, so depending only on
+`ordered-float-macros` is not enough.
 
 ## Usage
 
