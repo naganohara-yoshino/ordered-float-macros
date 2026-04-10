@@ -16,6 +16,7 @@
 /// let value: NotNan<f32> = nn32!(SCALE + 0.5);
 /// assert_eq!(value.into_inner(), 2.0);
 /// ```
+/// Examples of invalid usage are rejected at compile time:
 ///
 /// ```compile_fail
 /// use ordered_float_macros::nn32;
@@ -39,8 +40,12 @@ macro_rules! nn32 {
                 "nn32!: expression evaluated to NAN"
             );
         };
-        unsafe {
-            ::ordered_float::NotNan::<f32>::new_unchecked(__SHOULD_BE_CONST_IN_ORDERED_FLOAT_MACROS)
+        const {
+            unsafe {
+                ::ordered_float::NotNan::<f32>::new_unchecked(
+                    __SHOULD_BE_CONST_IN_ORDERED_FLOAT_MACROS,
+                )
+            }
         }
     }};
 }
@@ -61,6 +66,7 @@ macro_rules! nn32 {
 /// let value: NotNan<f64> = nn64!(SCALE * 2.0);
 /// assert_eq!(value.into_inner(), 5.0);
 /// ```
+/// Examples of invalid usage are rejected at compile time:
 ///
 /// ```compile_fail
 /// use ordered_float_macros::nn64;
@@ -84,8 +90,12 @@ macro_rules! nn64 {
                 "nn64!: expression evaluated to NAN"
             );
         };
-        unsafe {
-            ::ordered_float::NotNan::<f64>::new_unchecked(__SHOULD_BE_CONST_IN_ORDERED_FLOAT_MACROS)
+        const {
+            unsafe {
+                ::ordered_float::NotNan::<f64>::new_unchecked(
+                    __SHOULD_BE_CONST_IN_ORDERED_FLOAT_MACROS,
+                )
+            }
         }
     }};
 }
